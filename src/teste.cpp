@@ -8,9 +8,12 @@
 int main(){
     std::cout << "\n Hello World! \n" << std::endl;
     Ataque ataque1;
-    Personagem p1;
-    Personagem p2;
-    ataque1.UsarAtaque(&p1, &p2);
+    Personagem p1("bixo1");
+    Personagem p2("bixo2");
+    
+    std::cout << "Vida bixo2 = " << p2.getVidaAtual() << std::endl;
+    p1.UsarAtaque(&ataque1, &p2);
+    std::cout << "Vida bixo2 = " << p2.getVidaAtual() << std::endl;
 
     return 0;
 }

@@ -1,15 +1,21 @@
 #pragma once
-#include "personagens.hpp"
+#include "itens.hpp"
+#include <string>
+
 
 class Ataque{
     protected:
+        std::string nomeAtaque;
         int modDanoBase;
         int chanceSucesso;
 
     public:
         Ataque();
         ~Ataque();
-        void UsarAtaque(Personagem* atacante, Personagem* alvo);
+        std::string getNomeAtaque() const;
+        int getModDanoBase() const;
+        int getChanceSucesso() const;
+        
 };
 
 class Defesa{

@@ -1,18 +1,13 @@
-#include "personagens.hpp"
-#include "itens.hpp"
 #include "acoes.hpp"
 #include <iostream>
 
-
-Ataque::Ataque() : modDanoBase(10), chanceSucesso(90) {
+Ataque::Ataque() : nomeAtaque("ataque sem nome"), modDanoBase(10), chanceSucesso(80) {
     std::cout << "ataque construido" << std::endl;
 }
 Ataque::~Ataque(){
     std::cout << "ataque destruido" << std::endl;
 }
 
-void Ataque::UsarAtaque(Personagem* atacante, Personagem* alvo){
-    std::cout << this->modDanoBase << std::endl;
-    std::cout << atacante->getVidaAtual() << std::endl;
-}
-    
+std::string Ataque::getNomeAtaque() const   { return this->nomeAtaque; }
+int Ataque::getModDanoBase() const          { return this->modDanoBase; }
+int Ataque::getChanceSucesso() const        { return this->chanceSucesso; }
