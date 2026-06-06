@@ -1,4 +1,5 @@
 #pragma once
+#include "personagens.hpp"
 
 class Ataque{
     protected:
@@ -6,5 +7,12 @@ class Ataque{
         int chanceSucesso;
 
     public:
-        int virtual UsarAtaque();
+        Ataque();
+        ~Ataque();
+        void UsarAtaque(Personagem* atacante, Personagem* alvo);
+};
+
+class Defesa{
+    protected:
+        int modDefesa;
 };

@@ -12,9 +12,17 @@ class Personagem{
         Talisma* talismaSegurado;
 
     public:
+        Personagem();
+        ~Personagem();
         std::string getNome() const;
         int getVidaAtual() const;
         int getVidaMax() const;
+        int getDanoBase() const;
+        int getDefesaBase() const;
+        Talisma* getTalismaSegurado() const;
+
+        void addVidaAtual(int diferenca);
+
 };
 
 
