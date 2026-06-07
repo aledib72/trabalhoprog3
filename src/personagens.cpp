@@ -49,3 +49,11 @@ void Personagem::UsarAtaque(Ataque* ataqueUsado, Personagem* alvo){
     std::cout << ataqueUsado->getNomeAtaque() << "falhou!" << std::endl;
     return;
 }
+
+
+
+
+
+Jogador::Jogador() { }
+Jogador::Jogador(std::string nomeDado) { }
+Jogador::~Jogador() { }

@@ -3,11 +3,13 @@
 #include "personagens.hpp"
 #include "itens.hpp"
 #include "acoes.hpp"
+#include "funcoesSetup.hpp"
 
 
 int main(){
     std::cout << "\n Hello World! \n" << std::endl;
     Ataque ataque1;
+    Jogador* jogador = CriaPersonagemJogador();
     Personagem p1("bixo1");
     Personagem p2("bixo2");
     

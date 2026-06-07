@@ -36,8 +36,12 @@ class Jogador : public Personagem{
     protected:
         //inventario
 
-    protected:
+    public:
+        Jogador();
+        Jogador(std::string nomeDado);
+        ~Jogador();
         int UsarItem();
+        
 };
 
 
