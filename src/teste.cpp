@@ -6,7 +6,7 @@
 #include "funcoesSetup.hpp"
 
 
-int main(){
+int main_teste(){
     std::cout << "\n Hello World! \n" << std::endl;
     Ataque ataque1;
     Jogador* jogador = CriaPersonagemJogador();
