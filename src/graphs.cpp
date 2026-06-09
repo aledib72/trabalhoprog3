@@ -2,15 +2,13 @@
 
 
     void drawNamescreen(Texture2D texture, std::string &name, bool &confirmation){
-        //primeiro pegar um nome, passar ele como sendo 
         int key = GetKeyPressed();
         if (key > 0){
             if((key >= 32) && (key <= 125) && (name.length() < 20)){
-                name += (char)key; //pasassar como char para não cadastrar nick de algueem como int
+                name += (char)key; 
             }
             key = GetCharPressed(); 
         }   
-            //apagar um nome caracter
             if (IsKeyPressed(KEY_BACKSPACE) && name.length() > 0)  {
                 name.pop_back();
             }
@@ -26,6 +24,12 @@
         DrawText("Insert Name", WIDTH/2, HEIGHT/2, 32, LIGHTGRAY);
     }
 
+void transictionNameToInitial(Texture2D namescreen, Texture2D initial){
+    if (IsKeyPressed(KEY_ENTER)){
+        UnloadTexture(namescreen);
+        drawInitialScreen(initial);
+        }
+    }
 
 void drawInitialScreen(Texture2D texture){
 DrawTexture(texture, 0, 0, WHITE);
