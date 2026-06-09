@@ -3,8 +3,8 @@
 #include "personagens.hpp"
 #include "itens.hpp"
 #include "acoes.hpp"
-#include "Menu.hpp"
-#include "Pokedex.hpp"
+#include "menu.hpp"
+#include "pokedex.hpp"
 
 int main() {
     Menu menu;

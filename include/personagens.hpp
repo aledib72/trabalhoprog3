@@ -2,6 +2,7 @@
     #include <string>
     #include "itens.hpp"
     #include "acoes.hpp"
+    #include "raylib.h"
 
     class Personagem{
         protected:
@@ -13,6 +14,7 @@
             Talisma* talismaSegurado;
             Ataque* ataque1;
             Ataque* ataque2;
+            Rectangle hitbox;
 
         public:
             Personagem();
@@ -24,6 +26,8 @@
             int getDanoBase() const;
             int getDefesaBase() const;
             Talisma* getTalismaSegurado() const;
+
+            void setHitbox(int x, int y, int WIDTH, int HEIGHT);
 
             void AddVidaAtual(int diferenca);
             void UsarAtaque(Ataque* ataqueUsado, Personagem* alvo);

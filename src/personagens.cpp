@@ -20,6 +20,14 @@ int Personagem::getDanoBase() const             { return this->danoBase; }
 int Personagem::getDefesaBase() const           { return this->defesaBase; }
 Talisma* Personagem::getTalismaSegurado() const { return this->talismaSegurado; }
 
+void Personagem::setHitbox(int x, int y, int WIDTH, int HEIGHT){
+    this->hitbox.x = x;
+    this->hitbox.y = y;
+    this->hitbox.width = WIDTH;
+    this->hitbox.height = HEIGHT;
+}
+
+
 void Personagem::AddVidaAtual(int diferenca){
     if( (this->vidaAtual + diferenca) >= this->vidaMax){
         this->vidaAtual = this->vidaMax;

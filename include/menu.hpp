@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "Pokedex.hpp"
+#include "pokedex.hpp"
 #include "personagens.hpp"
 
 // Define as telas da sua Máquina de Estados
