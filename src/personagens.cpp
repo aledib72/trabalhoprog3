@@ -1,6 +1,6 @@
 #include "personagens.hpp"
 #include <iostream>
-
+#include  <ctime>
 
 //Construtores e destrutor
 

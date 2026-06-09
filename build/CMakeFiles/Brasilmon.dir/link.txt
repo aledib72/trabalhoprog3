@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\Brasilmon.dir/objects.a
+C:\MinGW\bin\ar.exe qc CMakeFiles\Brasilmon.dir/objects.a @CMakeFiles\Brasilmon.dir\objects1.rsp
+C:\MinGW\bin\c++.exe -O3 -DNDEBUG -Wl,--whole-archive CMakeFiles\Brasilmon.dir/objects.a -Wl,--no-whole-archive -o Brasilmon.exe -Wl,--out-implib,libBrasilmon.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\Brasilmon.dir\linkLibs.rsp
