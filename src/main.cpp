@@ -5,9 +5,11 @@
 #include "acoes.hpp"
 #include "menu.hpp"
 #include "pokedex.hpp"
+#include "teste.cpp"
+#include "cicloBatalha.hpp"
 
 int main() {
-    Menu menu;
+    /*Menu menu;
     Pokedex pokedex;
    
     pokedex.inicializarPokedex();
@@ -39,7 +41,9 @@ int main() {
     Personagem* boss = pokedex.sortearBoss();
     std::cout << "CUIDADO! O(a) Lendario(a) " << boss->getNome() << " bloqueia o seu caminho!\n\n";
     
-    boss->UsarAtaque(&ataquePadrao, pokemonJogador);
+    boss->UsarAtaque(&ataquePadrao, pokemonJogador);*/
+
+    main_teste();
 
     return 0;
 }

@@ -11,3 +11,4 @@ Ataque::~Ataque(){
 std::string Ataque::getNomeAtaque() const   { return this->nomeAtaque; }
 int Ataque::getModDanoBase() const          { return this->modDanoBase; }
 int Ataque::getChanceSucesso() const        { return this->chanceSucesso; }
+

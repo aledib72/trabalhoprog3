@@ -11,6 +11,7 @@ class Ataque{
 
     public:
         Ataque();
+        Ataque(std::string nomeAtaque, int modDanoBase, int chanceSucesso);
         ~Ataque();
         std::string getNomeAtaque() const;
         int getModDanoBase() const;
@@ -22,3 +23,6 @@ class Defesa{
     protected:
         int modDefesa;
 };
+
+
+

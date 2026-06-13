@@ -19,12 +19,15 @@
         public:
             Personagem();
             Personagem(std::string nomeDado);
+            Personagem(std::string nomeDado, int vidaMax, int danoBase, int defesaBase, Ataque* ataque1);
             ~Personagem();
             std::string getNome() const;
             int getVidaAtual() const;
             int getVidaMax() const;
             int getDanoBase() const;
             int getDefesaBase() const;
+            Ataque* getAtaque1() const;
+            Ataque* getAtaque2() const;
             Talisma* getTalismaSegurado() const;
 
             void setHitbox(int x, int y, int WIDTH, int HEIGHT);
