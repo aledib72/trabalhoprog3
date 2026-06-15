@@ -24,5 +24,3 @@ class Defesa{
         int modDefesa;
 };
 
-
-

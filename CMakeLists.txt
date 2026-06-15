@@ -18,13 +18,11 @@ FetchContent_MakeAvailable(raylib)
 
 # Todos os seus arquivos .cpp do jogo
 add_executable(Brasilmon
-    src/main.cpp
     src/acoes.cpp
-    src/funcoesSetup.cpp
     src/graphs.cpp
-    src/menu.cpp
     src/personagens.cpp
     src/pokedex.cpp
+    src/main.cpp
 )
 
 # Conecta a raylib ao seu projeto

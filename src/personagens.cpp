@@ -1,76 +1,99 @@
 #include "personagens.hpp"
 #include <iostream>
-#include  <ctime>
 
-//Construtores e destrutor
+Personagem::Personagem()
+    : nome("indefinido"), vidaAtual(30), vidaMax(30),
+      danoBase(10), defesaBase(10),
+      talismaSegurado(nullptr), ataque1(nullptr), ataque2(nullptr)
+{
+    hitbox = {0, 0, 0, 0};
+}
 
-Personagem::Personagem() : nome("indefinido"), vidaAtual(30), vidaMax(30){ }
+Personagem::Personagem(std::string nomeDado)
+    : nome(nomeDado), vidaAtual(30), vidaMax(30),
+      danoBase(10), defesaBase(10),
+      talismaSegurado(nullptr), ataque1(nullptr), ataque2(nullptr)
+{
+    hitbox = {0, 0, 0, 0};
+    std::cout << this->nome << " criado!" << std::endl;
+}
 
-Personagem::Personagem(std::string nomeDado) : 
-    nome(nomeDado), vidaAtual(30), vidaMax(30), danoBase(10), defesaBase(10){
-        std::cout << this->nome << " criado!" << std::endl;
-    }
+Personagem::~Personagem() {}
 
-Personagem::Personagem(std::string nomeDado, int vidaMax, int danoBase, int defesaBase, Ataque* ataque1) : 
-    nome(nomeDado), vidaAtual(vidaMax), vidaMax(vidaMax), danoBase(danoBase), defesaBase(defesaBase), ataque1(ataque1) { }
 
-Personagem::~Personagem(){ }
+std::string Personagem::getNome()      const { return this->nome; }
+int         Personagem::getVidaAtual() const { return this->vidaAtual; }
+int         Personagem::getVidaMax()   const { return this->vidaMax; }
+int         Personagem::getDanoBase()  const { return this->danoBase; }
+int         Personagem::getDefesaBase()const { return this->defesaBase; }
 
-std::string Personagem::getNome() const         { return this->nome; }
-int Personagem::getVidaAtual() const            { return this->vidaAtual; }
-int Personagem::getVidaMax() const              { return this->vidaMax; }
-int Personagem::getDanoBase() const             { return this->danoBase; }
-int Personagem::getDefesaBase() const           { return this->defesaBase; }
-Ataque* Personagem::getAtaque1() const          { return this->ataque1; }
-Ataque* Personagem::getAtaque2() const          { return this->ataque2; }
+Ataque* Personagem::getAtaque1() const { return this->ataque1; }
+Ataque* Personagem::getAtaque2() const { return this->ataque2; }
+
 Talisma* Personagem::getTalismaSegurado() const { return this->talismaSegurado; }
 
-void Personagem::setHitbox(int x, int y, int WIDTH, int HEIGHT){
-    this->hitbox.x = x;
-    this->hitbox.y = y;
-    this->hitbox.width = WIDTH;
+
+void Personagem::setHitbox(int x, int y, int WIDTH, int HEIGHT) {
+    this->hitbox.x      = x;
+    this->hitbox.y      = y;
+    this->hitbox.width  = WIDTH;
     this->hitbox.height = HEIGHT;
 }
 
+Rectangle Personagem::getHitbox() const {
+    return hitbox;
+}
 
-void Personagem::AddVidaAtual(int diferenca){
-    if( (this->vidaAtual + diferenca) >= this->vidaMax){
+
+void Personagem::AddVidaAtual(int diferenca) {
+    if ((this->vidaAtual + diferenca) >= this->vidaMax) {
         this->vidaAtual = this->vidaMax;
         return;
     }
-    if( (this->vidaAtual - diferenca) <= 0 ){
+
+    if ((this->vidaAtual + diferenca) <= 0) {
         this->vidaAtual = 0;
         return;
     }
     this->vidaAtual += diferenca;
-    return;
-
 }
 
 
-void Personagem::UsarAtaque(Ataque* ataqueUsado, Personagem* alvo){
-    srand(time(0));
-    int randomNum = rand() % 101; //gera um numero entre 0 e 100
-    if( ataqueUsado->getChanceSucesso() >= randomNum ){
-        std::cout << ataqueUsado->getNomeAtaque() << "acertou!" << std::endl;
-        
-        int danoCausado = int(float(this->danoBase) + float(ataqueUsado->getModDanoBase() * this->danoBase * 0.5) - float(alvo->defesaBase * this->danoBase * 0.2));
-        if( int chanceCritico = 10 >= randomNum){
-            std::cout << "Acerto crítico!" << danoCausado << std::endl;
-            danoCausado = danoCausado * 2;
-        }
-        std::cout << "Dano causado: " << danoCausado << std::endl;
-        alvo->AddVidaAtual( -danoCausado);
-        return;
+void Personagem::UsarAtaque(Ataque* ataqueUsado, Personagem* alvo) {
+ 
+    int roll = GetRandomValue(0, 100);
+    if (ataqueUsado->getChanceSucesso() >= roll) {
+        int danoCausado = this->danoBase +
+            (int)(ataqueUsado->getModDanoBase() * this->danoBase * 0.01f);
+        alvo->AddVidaAtual(-danoCausado);
     }
-    std::cout << ataqueUsado->getNomeAtaque() << "falhou!" << std::endl;
-    return;
+}
+
+void Personagem::PegarNovoTalisma(Talisma* novoTalisma) {
+    this->talismaSegurado = novoTalisma;
 }
 
 
+bool Personagem::operator==(const Personagem& other) const {
+    Rectangle a = this->getHitbox();
+    Rectangle b = other.getHitbox();
+    return (a.x < b.x + b.width  &&
+            a.x + a.width > b.x  &&
+            a.y < b.y + b.height &&
+            a.y + a.height > b.y);
+}
 
 
+Jogador::Jogador() : Personagem() {}
 
-Jogador::Jogador() { }
-Jogador::Jogador(std::string nomeDado) { }
-Jogador::~Jogador() { }
+Jogador::Jogador(std::string nomeDado) : Personagem(nomeDado) {}
+
+Jogador::~Jogador() {}
+
+int Jogador::UsarItem() {
+    if (talismaSegurado == nullptr) return 0;
+    AddVidaAtual(talismaSegurado->getCura());
+    delete talismaSegurado;
+    talismaSegurado = nullptr;
+    return 1;
+}

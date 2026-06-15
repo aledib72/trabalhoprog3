@@ -1,33 +1,53 @@
 #pragma once
-#include <vector>
-#include <random>
 #include "personagens.hpp"
 
-class Pokedex {
-private:
-    std::vector<Personagem*> listaIniciais;
-    std::vector<Personagem*> listaInimigosComuns;
-    std::vector<Personagem*> listaBosses;
-
+// ─── Iniciais ───────────────────────────────────────────
+class Arara : public Personagem {
 public:
-    Pokedex();
-    ~Pokedex(); 
+    Arara();
+    ~Arara();
+};
 
-    void inicializarPokedex();
-    
-    
-    const std::vector<Personagem*>& getIniciais() const;
+class Tucano : public Personagem {
+public:
+    Tucano();
+    ~Tucano();
+};
 
-    Personagem* sortearInimigoComum();
-    Personagem* sortearBoss();
+class Preguica : public Personagem {
+public:
+    Preguica();
+    ~Preguica();
+};
 
-    //Template para sorteio de pokemon da batalha
-    template <typename T>
-    T sortearElemento(const std::vector<T>& lista) {
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_int_distribution<> dis(0, lista.size() - 1);
-        
-        return lista[dis(gen)];
-    }
+// ─── Inimigos Padrões ───────────────────────────────────
+class Capivara : public Personagem {
+public:
+    Capivara();
+    ~Capivara();
+};
+
+class LoboGuara : public Personagem {
+public:
+    LoboGuara();
+    ~LoboGuara();
+};
+
+class Tamandua : public Personagem {
+public:
+    Tamandua();
+    ~Tamandua();
+};
+
+// ─── Bosses ─────────────────────────────────────────────
+class Onca : public Personagem {
+public:
+    Onca();
+    ~Onca();
+};
+
+class Sucuri : public Personagem {
+public:
+    Sucuri();
+    ~Sucuri();
 };
