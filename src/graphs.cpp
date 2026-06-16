@@ -112,15 +112,14 @@ void updateMob(Position &pos, bool &active, float &mobDirection, int &moveTimer,
 void spawnBoss(Position &pos, bool &active) {
     if (!active && GetRandomValue(1, 100) <= 1) {
         pos.x = GetRandomValue(100, 1800);
-        pos.y = FLOOR_Y + 120;
+        pos.y = FLOOR_Y - (1309 * 0.1f);
         active = true;
     }
 }
 
 
-
 bool setContact(Personagem* p, Personagem* m) {
-    return *p == *m;
+ return CheckCollisionRecs(p->getHitbox(), m->getHitbox());
 }
 
 void drawBattle(Personagem* player, Personagem* mob) {
@@ -138,7 +137,6 @@ BattleState playerAction(Personagem* player, Personagem* mob, BattleState state,
     if (state != PLAYER_TURN) return state;
     shield = 0;
 
-    // Guarda nulos antes de usar
     Ataque* atq1 = player->getAtaque1();
     Ataque* atq2 = player->getAtaque2();
 

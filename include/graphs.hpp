@@ -12,8 +12,8 @@
 #define PLAYER_SPEED      5.0f
 #define MOB_SPEED         5.0f
 #define BOSS_SPEED        0.05f
-#define PLAYER_JUMP_HEIGHT 30.0f  
-#define GRAVITY           0.5f
+#define PLAYER_JUMP_HEIGHT 100.0f  
+#define GRAVITY           5.0f
 
 /**
  * @brief Stores the position of an entity.

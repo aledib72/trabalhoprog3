@@ -33,7 +33,7 @@ Ataque* Personagem::getAtaque2() const { return this->ataque2; }
 Talisma* Personagem::getTalismaSegurado() const { return this->talismaSegurado; }
 
 
-void Personagem::setHitbox(int x, int y, int WIDTH, int HEIGHT) {
+void Personagem::setHitbox(float x, float y, int WIDTH, int HEIGHT) {
     this->hitbox.x      = x;
     this->hitbox.y      = y;
     this->hitbox.width  = WIDTH;

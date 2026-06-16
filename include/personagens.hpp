@@ -34,7 +34,7 @@ public:
     Rectangle getHitbox() const;
     Talisma* getTalismaSegurado() const;
 
-    void setHitbox(int x, int y, int WIDTH, int HEIGHT);
+    void setHitbox(float x, float y, int WIDTH, int HEIGHT);
     void AddVidaAtual(int diferenca);
     void UsarAtaque(Ataque* ataqueUsado, Personagem* alvo);
     void PegarNovoTalisma(Talisma* novoTalisma);
