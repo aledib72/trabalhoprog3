@@ -4,6 +4,13 @@
 #include "acoes.hpp"
 #include "raylib.h"
 
+template<typename T>
+T limitarValor(T valor, T minimo, T maximo) {
+    if (valor < minimo) return minimo;
+    if (valor > maximo) return maximo;
+    return valor;
+}
+
 class Personagem {
 protected:
     std::string nome;

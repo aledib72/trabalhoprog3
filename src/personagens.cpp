@@ -46,16 +46,7 @@ Rectangle Personagem::getHitbox() const {
 
 
 void Personagem::AddVidaAtual(int diferenca) {
-    if ((this->vidaAtual + diferenca) >= this->vidaMax) {
-        this->vidaAtual = this->vidaMax;
-        return;
-    }
-
-    if ((this->vidaAtual + diferenca) <= 0) {
-        this->vidaAtual = 0;
-        return;
-    }
-    this->vidaAtual += diferenca;
+    this->vidaAtual = limitarValor(this->vidaAtual + diferenca, 0, this->vidaMax);
 }
 
 
@@ -83,6 +74,9 @@ bool Personagem::operator==(const Personagem& other) const {
             a.y + a.height > b.y);
 }
 
+std::string Personagem::getTipo() const {
+    return "Personagem";
+}
 
 Jogador::Jogador() : Personagem() {}
 

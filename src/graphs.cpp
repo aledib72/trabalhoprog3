@@ -1,8 +1,6 @@
 #include "graphs.hpp"
 
-
 void drawNamescreen(Texture2D texture, std::string &name, bool &confirmation) {
- 
     int key = GetCharPressed();
     while (key > 0) {
         if ((key >= 32) && (key <= 125) && (name.length() < 20)) {
@@ -20,34 +18,42 @@ void drawNamescreen(Texture2D texture, std::string &name, bool &confirmation) {
 
     DrawTexture(texture, 0, 0, WHITE);
     DrawRectangle(WIDTH/2 - 200, HEIGHT/2 - 100, 400, 200, BROWN);
-    DrawText("Insert Name",   WIDTH/2 - 190, HEIGHT/2 - 90, 32, LIGHTGRAY);
-    DrawText(name.c_str(),    WIDTH/2 - 190, HEIGHT/2 - 50, 32, WHITE);
+    DrawText("Insert Name",  WIDTH/2 - 190, HEIGHT/2 - 90, 32, LIGHTGRAY);
+    DrawText(name.c_str(),   WIDTH/2 - 190, HEIGHT/2 - 50, 32, WHITE);
 }
 
 void drawInitialScreen(Texture2D texture) {
     DrawTexture(texture, 0, 0, WHITE);
     DrawRectangle(WIDTH/2 - 200, HEIGHT/2 - 100, 400, 200, BROWN);
-    DrawText("Press Any Key",      WIDTH/2 - 190, HEIGHT/2 - 80, 32, LIGHTGRAY);
-    DrawText("To Start The Game",  WIDTH/2 - 190, HEIGHT/2 - 20, 32, LIGHTGRAY);
+    DrawText("Press Any Key",     WIDTH/2 - 190, HEIGHT/2 - 80, 32, LIGHTGRAY);
+    DrawText("To Start The Game", WIDTH/2 - 190, HEIGHT/2 - 20, 32, LIGHTGRAY);
 }
 
 void drawBackground(Texture2D texture, float offset) {
-    DrawTexture(texture, (int)offset,                0, WHITE);
+    DrawTexture(texture, (int)offset,                 0, WHITE);
     DrawTexture(texture, (int)offset + texture.width, 0, WHITE);
 }
 
-
-
 void drawFloor() {
-    DrawRectangle(0, 903, 1920, 200, BROWN);
+    DrawRectangle(0, 870, 1920, 300, BROWN);
 }
 
 void drawPlayer(Texture2D texture, Position &pos) {
     DrawTextureEx(texture, {pos.x, pos.y}, 0.0f, 0.2f, WHITE);
 }
 
+void drawPlayerBattle(Texture2D texture, Position &pos) {
+    DrawTextureEx(texture, {pos.x, pos.y}, 0.0f, 0.5f, WHITE);
+}
+
+
 void drawMob(Texture2D texture, Position &pos) {
     DrawTextureEx(texture, {pos.x, pos.y}, 0.0f, 0.1f, WHITE);
+}
+
+void drawMobBattle(Texture2D texture, Position &pos){
+    DrawTextureEx(texture, {pos.x, pos.y}, 0.0f, 0.2f, WHITE);
+
 }
 
 
@@ -58,24 +64,18 @@ void updateBackground(float &offset) {
     if (offset >=  1920) offset = 0;
 }
 
-void updatePlayer(Position &pos) {
+void updatePlayer(Position &pos, float floorY) {
     if (IsKeyDown(KEY_D)) pos.x += PLAYER_SPEED;
     if (IsKeyDown(KEY_A)) pos.x -= PLAYER_SPEED;
-
     if (pos.x >= 1200) pos.x = 1200;
     if (pos.x <= 0)    pos.x = 0;
 
-
-    if (IsKeyPressed(KEY_W) && pos.y >= FLOOR_Y) {
+    if (IsKeyPressed(KEY_W) && pos.y >= floorY)
         pos.y -= PLAYER_JUMP_HEIGHT;
-    }
-
-    if (pos.y < FLOOR_Y) {
+    if (pos.y < floorY)
         pos.y += GRAVITY;
-    }
-    if (pos.y >= FLOOR_Y) {
-        pos.y = FLOOR_Y;
-    }
+    if (pos.y >= floorY)
+        pos.y = floorY;
 }
 
 
@@ -84,7 +84,6 @@ void spawnMob(Position &pos, bool &active) {
     if (count >= 10) return;
     if (!active && GetRandomValue(1, 100) <= 20) {
         pos.x = GetRandomValue(100, 1800);
-        pos.y = FLOOR_Y + 120;
         active = true;
         count++;
     }
@@ -108,29 +107,28 @@ void updateMob(Position &pos, bool &active, float &mobDirection, int &moveTimer,
     }
 }
 
-
 void spawnBoss(Position &pos, bool &active) {
     if (!active && GetRandomValue(1, 100) <= 1) {
         pos.x = GetRandomValue(100, 1800);
-        pos.y = FLOOR_Y - (1309 * 0.1f);
         active = true;
     }
 }
 
 
 bool setContact(Personagem* p, Personagem* m) {
- return CheckCollisionRecs(p->getHitbox(), m->getHitbox());
+    return CheckCollisionRecs(p->getHitbox(), m->getHitbox());
 }
 
 void drawBattle(Personagem* player, Personagem* mob) {
-    ClearBackground(BLACK);
-    DrawText(player->getNome().c_str(),                              100,  900, 32, WHITE);
-    DrawText(TextFormat("HP: %d/%d", player->getVidaAtual(), player->getVidaMax()), 100,  940, 28, GREEN);
-    DrawText(mob->getNome().c_str(),                                1600,  900, 32, WHITE);
-    DrawText(TextFormat("HP: %d/%d", mob->getVidaAtual(),    mob->getVidaMax()),   1600,  940, 28, RED);
-    DrawText("[1] Ataque 1",              700, 1000, 32, YELLOW);
-    DrawText("[2] Ataque 2",              700, 1050, 32, YELLOW);
-    DrawText("[3] Escudo - Passar a vez", 700, 1100, 32, BLUE);
+    DrawText(player->getNome().c_str(),                                             100,  50, 32, WHITE);
+    DrawText(TextFormat("HP: %d/%d", player->getVidaAtual(), player->getVidaMax()), 100,  90, 28, GREEN);
+    DrawText(mob->getNome().c_str(),                                               1600,  50, 32, WHITE);
+    DrawText(TextFormat("HP: %d/%d", mob->getVidaAtual(), mob->getVidaMax()),      1600,  90, 28, RED);
+
+    DrawRectangle(0, 880, 1920, 320, Fade(BLACK, 0.85f));
+    DrawText("[1] Ataque 1",              700,  920, 36, YELLOW);
+    DrawText("[2] Ataque 2",              700,  980, 36, YELLOW);
+    DrawText("[3] Escudo - Passar a vez", 700, 1040, 36, BLUE);
 }
 
 BattleState playerAction(Personagem* player, Personagem* mob, BattleState state, int &shield) {
@@ -146,7 +144,6 @@ BattleState playerAction(Personagem* player, Personagem* mob, BattleState state,
             int dano = atq1->getModDanoBase() - mob->getDefesaBase();
             if (dano > 0) mob->AddVidaAtual(-dano);
         }
-
         if (mob->getVidaAtual() <= 0) return BATTLE_WIN;
         return MOB_TURN;
     }
@@ -168,7 +165,6 @@ BattleState playerAction(Personagem* player, Personagem* mob, BattleState state,
 
     return PLAYER_TURN;
 }
-
 
 BattleState mobAction(Personagem* player, Personagem* mob, int shield) {
     int escolha = GetRandomValue(1, 3);

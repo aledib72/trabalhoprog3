@@ -1,44 +1,48 @@
 #include "pokedex.hpp"
 
 
-Arara::Arara() {
-    nome      = "Arara";
+Arara::Arara(std::string nomeDado) {
+    nome      = nomeDado;
     vidaMax   = 50;
     vidaAtual = 50;
     danoBase  = 10;
     defesaBase = 5;
-
     ataque1 = new Ataque("Bico Afiado", 20, 80);
     ataque2 = new Ataque("Garra",       15, 90);
 }
+
 Arara::~Arara() {
     delete ataque1;
     delete ataque2;
 }
 
-Tucano::Tucano() {
-    nome       = "Tucano";
-    vidaMax    = 50;
-    vidaAtual  = 50;
-    danoBase   = 8;
+
+Tucano::Tucano(std::string nomeDado) {
+    nome      = nomeDado;
+    vidaMax   = 50;
+    vidaAtual = 50;
+    danoBase  = 8;
     defesaBase = 7;
     ataque1 = new Ataque("Bicada",    15, 85);
     ataque2 = new Ataque("Investida", 20, 70);
 }
+
 Tucano::~Tucano() {
     delete ataque1;
     delete ataque2;
 }
 
-Preguica::Preguica() {
-    nome       = "Preguica";
-    vidaMax    = 50;
-    vidaAtual  = 50;
-    danoBase   = 5;
+
+Preguica::Preguica(std::string nomeDado) {
+    nome      = nomeDado;
+    vidaMax   = 50;
+    vidaAtual = 50;
+    danoBase  = 5;
     defesaBase = 15;
     ataque1 = new Ataque("Arranhadela", 10, 90);
     ataque2 = new Ataque("Abraco",      25, 50);
 }
+
 Preguica::~Preguica() {
     delete ataque1;
     delete ataque2;

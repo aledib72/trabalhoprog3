@@ -31,6 +31,11 @@ int main() {
     Texture2D texBackground = LoadTexture("assets/background.png");
     Texture2D playerTex     = LoadTexture("assets/player.png");
 
+
+    float playerFloorY = 903.0f - playerTex.height * 0.2f;
+    Position playerPos = {100.0f, playerFloorY};
+    
+
  /*   Texture2D incialTex[3] = {
         LoadTexture("");
         LoadTexture("");
@@ -39,12 +44,12 @@ int main() {
 
     Texture2D texMobs[3] = {
         LoadTexture("assets/capivara.png"),
-        LoadTexture("assets/capivara.png"),
-        LoadTexture("assets/capivara.png")
+        LoadTexture("assets/lobo guará-Photoroom.png"),
+        LoadTexture("assets/tamandua-Photoroom.png")
     };
     Texture2D texBosses[2] = {
-        LoadTexture("assets/capivara.png"),
-        LoadTexture("assets/capivara.png")
+        LoadTexture("assets/onca-Photoroom.png"),
+        LoadTexture("assets/sucuri-Photoroom.png")
     };
 
     // ── Estado ────────────────────────────────────────────────────────────────
@@ -60,7 +65,6 @@ int main() {
     bool        isBoss     = false;
     int         shield     = 0;
 
-    Position playerPos = { 100.0f, (float)FLOOR_Y };
     Position mobPos    = { 0.0f,   0.0f };
     Position bossPos   = { 0.0f,   0.0f };
     Position playerBattle = {120.0f, FLOOR_Y};
@@ -92,7 +96,7 @@ int main() {
 
             case CHOOSE_STARTER:
                 DrawTexture(texBackground, 0, 0, WHITE);
-                DrawText("Escolha seu parceiro:",       WIDTH/2 - 250, HEIGHT/2 - 150, 40, WHITE);
+                DrawText("Escolha sua habilidade inicial:",       WIDTH/2 - 250, HEIGHT/2 - 150, 40, WHITE);
                 DrawText("[1] Arara",                   WIDTH/2 - 250, HEIGHT/2 - 60,  36, YELLOW);
                 DrawText("[2] Tucano",                  WIDTH/2 - 250, HEIGHT/2,        36, YELLOW);
                 DrawText("[3] Preguica",                WIDTH/2 - 250, HEIGHT/2 + 60,   36, YELLOW);
@@ -103,9 +107,9 @@ int main() {
 
                 if (gameState == OVERWORLD) {
                     switch (starterChoice) {
-                        case 0: player = new Arara();    break;
-                        case 1: player = new Tucano();   break;
-                        case 2: player = new Preguica(); break;
+                        case 0: player = new Arara(playerName);    break;
+                        case 1: player = new Tucano(playerName);   break;
+                        case 2: player = new Preguica(playerName); break;
                     }
                 player->setHitbox((int)playerPos.x, (int)playerPos.y, 80, 120);
                 }
@@ -113,7 +117,7 @@ int main() {
 
             case OVERWORLD:
                 updateBackground(bgOffset);
-                updatePlayer(playerPos);
+                updatePlayer(playerPos, playerFloorY);
                 player->setHitbox((int)playerPos.x+140, (int)playerPos.y+120, 80, 120);
 
                 if (!mobActive && !bossActive) {
@@ -126,6 +130,7 @@ int main() {
                     if (currentMob == nullptr) {
                         isBoss     = false;
                         currentMob = spawnRandomMob(mobType);
+                        mobPos.y = 903.0f - texMobs[mobType].height * 0.1f;
                     }
                     currentMob->setHitbox((int)mobPos.x, (int)mobPos.y, 80, 120);
                 }
@@ -133,6 +138,7 @@ int main() {
                 if (bossActive && currentMob == nullptr) {
                     isBoss     = true;
                     currentMob = spawnRandomBoss(mobType);
+                    bossPos.y = 903.0f - texBosses[mobType].height * 0.1f;
                 }
                 if (bossActive && currentMob != nullptr)
                     currentMob->setHitbox((int)bossPos.x, (int)bossPos.y, 100, 140);
@@ -140,25 +146,10 @@ int main() {
                 drawBackground(texBackground, bgOffset);
                 drawFloor();
                 drawPlayer(playerTex, playerPos);
+                
                 if (mobActive  && !isBoss) drawMob(texMobs[mobType],   mobPos);
                 if (bossActive &&  isBoss) drawMob(texBosses[mobType], bossPos);
-
-                if (currentMob != nullptr) {
-                 DrawRectangleLines(
-                    (int)currentMob->getHitbox().x,
-                    (int)currentMob->getHitbox().y,
-                    (int)currentMob->getHitbox().width,
-                    (int)currentMob->getHitbox().height,
-                    RED
-                );
-            }
-            DrawRectangleLines(
-                (int)player->getHitbox().x,
-                (int)player->getHitbox().y,
-                (int)player->getHitbox().width,
-                (int)player->getHitbox().height,
-                BLUE
-            );
+      
                 if (currentMob != nullptr && setContact(player, currentMob)) {
                     battleState = PLAYER_TURN;
                     shield      = 0;
@@ -169,15 +160,18 @@ int main() {
             case BATTLE:
                 drawBackground(texBackground, bgOffset);
                 drawFloor();
-                drawBattle(player, currentMob);
                 drawMob(playerTex, playerBattle);
-                drawMob(texMobs[0], MobBattle);
+                if (!isBoss) drawMob(texMobs[mobType],   MobBattle);
+                else         drawMob(texBosses[mobType], MobBattle);
+                drawBattle(player, currentMob);
+                
                 if (battleState == PLAYER_TURN)
                     battleState = playerAction(player, currentMob, battleState, shield);
                 else if (battleState == MOB_TURN)
                     battleState = mobAction(player, currentMob, shield);
 
                 if (battleState == BATTLE_WIN) {
+                    player->AddVidaAtual(50); 
                     delete currentMob;
                     currentMob  = nullptr;
                     mobActive   = false;
@@ -192,14 +186,15 @@ int main() {
             case GAME_OVER:
                 DrawTexture(texBackground, 0, 0, Fade(WHITE, 0.3f));
                 DrawText("GAME OVER",                    WIDTH/2 - 160, HEIGHT/2 - 60, 64, RED);
-                DrawText("Pressione R para reiniciar",   WIDTH/2 - 220, HEIGHT/2 + 20, 32, WHITE);
+                DrawText(TextFormat("Deu azar, %s!", player->getNome().c_str()), WIDTH/2 - 160, HEIGHT/2 + +60, 36, WHITE);
+                DrawText("Pressione R para reiniciar",   WIDTH/2 - 160, HEIGHT/2 + 20, 32, WHITE);
                 if (IsKeyPressed(KEY_R)) {
                     delete player;
                     if (currentMob) { delete currentMob; currentMob = nullptr; }
                     player        = nullptr;
                     playerName    = "";
                     nameConfirmed = false;
-                    playerPos     = { 100.0f, (float)FLOOR_Y };
+                    playerPos     = { 100.0f, playerFloorY};
                     mobActive     = false;
                     bossActive    = false;
                     bgOffset      = 0.0f;

@@ -3,21 +3,24 @@
 
 class Arara : public Personagem {
 public:
-    Arara(); Arara(std::string nome);
+    Arara();
+    Arara(std::string nome);
     ~Arara();
     std::string getTipo() const override { return "Inicial"; }
 };
 
 class Tucano : public Personagem {
 public:
-    Tucano(); Tucano(std::string nome);
+    Tucano();
+    Tucano(std::string nome);  
     ~Tucano();
     std::string getTipo() const override { return "Inicial"; }
 };
 
 class Preguica : public Personagem {
 public:
-    Preguica(); Preguica(std::string nome);
+    Preguica();
+    Preguica(std::string nome); 
     ~Preguica();
     std::string getTipo() const override { return "Inicial"; }
 };

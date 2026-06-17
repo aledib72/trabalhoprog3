@@ -29,13 +29,16 @@ void drawBackground(Texture2D texture, float offset);
 void drawFloor();
 void drawPlayer(Texture2D texture, Position &pos);
 void drawMob(Texture2D texture, Position &pos);
+void drawPlayerBattle(Texture2D texture, Position &pos);
+void drawMobBattle(Texture2D texture, Position &pos);
+
 
 void updateBackground(float &offset);
-void updatePlayer(Position &pos);
+void updatePlayer(Position &pos, float floorY);
 
 void spawnMob(Position &pos, bool &active);
 void updateMob(Position &pos, bool &active, float &mobDirection, int &moveTimer, float offset);
-void spawnBoss(Position &pos, bool &active);   // BUG CORRIGIDO: estava declarada mas nunca implementada
+void spawnBoss(Position &pos, bool &active);  
 
 bool setContact(Personagem* p, Personagem* m);
 
